@@ -5,6 +5,7 @@ console.clear();
 import bedbug from '//bedbug.timkay.com/bedbug.js';
 
 const print = (...args) => $('pre').append(args.join(' ').replace(/\s*$/, '\n'));
+const example = (a, b) => print(`f\`${a}\``, '&#x2794;', b);
 
 function go() {
     const f = bedbug.g(x=>eval(x));
@@ -25,17 +26,10 @@ function go() {
     let s = 'Hello, world!!';
 `);
     print();
-    print(`c=${c} b=${b} =s =abc =b`);
-    print(f`--> c=${c} b=${b} =s =abc =b`);
-    print();
-    print(`=u =n =a`);
-    print(f`--> =u =n =a`);
-    print();
-    print(`=o =f`);
-    print(f`--> =o =f`);
-    print();
-    print(`--> =Math.PI`);
-    print(f`=Math.PI`);
+    example('c=${c} b=${b} =s =abc =b', f`c=${c} b=${b} =s =abc =b`);
+    example('=u =n =a', f`=u =n =a`);
+    example('=o =f', f`=o =f`);
+    example('pi found here... =Math.PI', f`pi found here... =Math.PI`);
 }
 
 const b = 99.123455;
