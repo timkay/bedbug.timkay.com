@@ -3,7 +3,6 @@ console.clear();
 
 // import {f, g} from '//bedbug.timkay.com/bedbug.js';
 import bedbug from '//bedbug.timkay.com/bedbug.js';
-console.log(bedbug.f`The answer is a=${9.12345678} =1/3 =Math.PI`);
 
 const print = (...args) => $('pre').append(args.join(' ').replace(/\s*$/, '\n'));
 
@@ -16,9 +15,26 @@ function go() {
     let a = [1, 2, 'tim', 0, u, n];
     let o = {'tim': Math.PI, 'bob': 'mary', [Math.PI]: 'PI'};
     let s = 'Hello, world!!';
-    print(f`c=${c} b=${b} =s =abc =b`);
-    print(f`=u =n =a`);
-    print(f`=o =f`);
+
+    print(`    let c = 3.1415;
+    let abc = 8.1234;
+    let u;
+    let n = null;
+    let a = [1, 2, 'tim', 0, u, n];
+    let o = {'tim': Math.PI, 'bob': 'mary', [Math.PI]: 'PI'};
+    let s = 'Hello, world!!';
+`);
+    print();
+    print(`c=${c} b=${b} =s =abc =b`);
+    print(f`--> c=${c} b=${b} =s =abc =b`);
+    print();
+    print(`=u =n =a`);
+    print(f`--> =u =n =a`);
+    print();
+    print(`=o =f`);
+    print(f`--> =o =f`);
+    print();
+    print(`--> =Math.PI`);
     print(f`=Math.PI`);
 }
 

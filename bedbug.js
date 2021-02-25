@@ -16,7 +16,7 @@
  *
  * In this case, no need to import f and g:
  *
- *    import './bedbug.js';
+ *    import bedbug from '//bedbug.timkay.com/bedbug.js';
  *
  * To set display precision:
  *

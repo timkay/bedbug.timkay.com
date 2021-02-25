@@ -1,6 +1,6 @@
 /* Add your styles here. */
 
-code {
+code, pre {
     display: block;
     padding-left: 0.5in;
 }
