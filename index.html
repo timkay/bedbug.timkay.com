@@ -7,10 +7,11 @@
     </head>
     <body>
         <h1>Better Debugging == bedbug</h1>
+        <code>by Tim Kay<br/>
+        timkay@not.com</code>
         <p>Working with numbers, debug output often looks cluttered due to
             too many decimal places. Bedbug enhances JavaScript
-            template literals ("backtick" strings) to improve the
-            readability.</p>
+            template literals ("backtick" strings) to improve readability.</p>
         <p>Instead of this output:</p>
         <code>
             console.log(`The answer is a=${9.12345678} 1/3=${1/3} Math.PI=${Math.PI}`);
@@ -26,28 +27,28 @@
         <p>You can also abbreviate. Instead of <kbd>x=${x}</kbd>,
             simply use <kbd>=x</kbd>:</p>
         <code>
-            console.log(f`The answer is a=${9.12345678} =1/3 =Math.PI`);
+            console.log(f`The answer is a=${9.12345678} =1/3 =fred =Math.PI`);
             <p></p>
-            > The answer is a=9.123 1/3=0.333 Math.PI=3.142
+            > The answer is a=9.123 1/3=0.333 fred=4.197 Math.PI=3.142
         </code>
-        <p>Bedbug provides "tag" functions that modify how template
-            literals work.</p>
+        <p>Bedbug provides "tag" functions that modify how template literals
+        work. Import the "f" tag like this:</p>
         <code>
-            import {f} from './bedbug.js';<br/>
+            import {f} from '//bedbug.timkay.com/bedbug.js';<br/>
             console.log(f`The answer is a=${9.12345678} =Math.PI`);
+        <p></p>
+            > The answer is a=9.123 Math.PI=3.142
         </code>
-        <p>displays</p>
-        <code>
-            The answer is a=9.123 Math.PI=3.142
-        </code>
-        <p>Used this way, the <kbd>=x</kbd> syntax only works with global variables.
-            To access local variables using the <kbd>=x</kbd> syntax, you need
-            to add to the top of each scope:</p>
+        <p>Using the builtin "f" tag, the <kbd>=x</kbd> syntax only works with
+            global variables. To access local variables using the <kbd>=x</kbd>
+            syntax, you need to add to the top of each scope:</p>
         <code>
             const f = bedbug.g(x=>eval(x));
         </code>
-        <p>Then the "f" works with local variables and <kbd>=x</kbd> syntax. 
-            In this case, no need to import f:</p>
+        <p>This version of "f" works with <kbd>=x</kbd> syntax for both global
+            and local variables. Unfortunately, you need to include it in every
+            scope where local variables need to be displayed. This way, no need
+            to import f, so import this way instead:</p>
         <code>
             import bedbug from '//bedbug.timkay.com/bedbug.js';
         </code>
