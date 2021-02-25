@@ -1,4 +1,6 @@
 /* Add your styles here. */
-body {
-    background: LightGray;
+
+code {
+    display: block;
+    padding-left: 0.5in;
 }

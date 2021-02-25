@@ -36,7 +36,7 @@ const fv = v => typeof v === 'string' ? v
                     .map(([k, v]) => `${fv(k)}: ${fv(v)}`).join(', ') + '}'
                 ;
 // replace =x with x=fv(value)
-const fs = (e, s) => s.replace(/=[A-Z$_][A-Z$_0-9\.]*/ig, t => {
+const fs = (e, s) => s.replace(/=\S+/ig, t => {
                         try {
                             return t.substr(1) + '=' + fv(e(t.substr(1)));
                         } catch (e) {return t;}

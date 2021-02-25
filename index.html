@@ -6,6 +6,51 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <h1>Better Debugging == bedbug</h1>
+        <p>In JavaScript, displaying numbers often looks cluttered, due to
+            numbers with too many decimal places. Bedbug enhances JavaScript
+            template literals ("backtick" strings) to pretty print debugging
+            output.</p>
+        <p>Instead of this:</p>
+        <code>
+            console.log(f`The answer is a=${9.12345678} 1/3=${1/3} Math.PI=${Math.PI}`);
+            <p></p>
+            > The answer is a=9.12345678 1/3=0.3333333333333333 Math.PI=3.141592653589793
+        </code>
+        <p>you get</p>
+        <code>
+            console.log(f`The answer is a=${9.12345678} 1/3=${1/3} Math.PI=${Math.PI}`);
+            <p></p>
+            > The answer is a=9.123 1/3=0.333 Math.PI=3.142
+        </code>
+        <p>You can also abbreviate. Instead of <kbd>x=${x}</kbd>,
+            use simply <kbd>=x</kbd>:</p>
+        <code>
+            console.log(f`The answer is a=${9.12345678} =1/3 =Math.PI`);
+            <p></p>
+            > The answer is a=9.123 1/3=0.333 Math.PI=3.142
+        </code>
+        <p>Bedbug provides "tag" functions that work with template literals to pretty print variables.</p>
+        <code>
+            import {f} from './bedbug.js';<br/>
+            console.log(f`The answer is a=${9.12345678} =Math.PI`);
+        </code>
+        <p>displays</p>
+        <code>
+            The answer is a=9.123 Math.PI=3.142
+        </code>
+        <p>To access local variables using the =k syntax, you must add to the top of each scope:</p>
+        <code>
+            const f = bedbug.g(x=>eval(x));
+        </code>
+        <p>In this case, no need to import f and g:</p>
+        <code>
+            import './bedbug.js';
+        </code>
+        <p>To set display precision:</p>
+        <code>
+            bedbug.precision(1e-4);
+        </code>
         <pre></pre>
         <script src="jquery.js"></script>
         <!--<script src="weconsole.js"></script>-->

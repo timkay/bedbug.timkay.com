@@ -1,8 +1,9 @@
 
 console.clear();
 
-// import {f, g} from './bedbug.js';
-import bedbug from './bedbug.js';
+// import {f, g} from '//bedbug.timkay.com/bedbug.js';
+import bedbug from '//bedbug.timkay.com/bedbug.js';
+console.log(bedbug.f`The answer is a=${9.12345678} =1/3 =Math.PI`);
 
 const print = (...args) => $('pre').append(args.join(' ').replace(/\s*$/, '\n'));
 
