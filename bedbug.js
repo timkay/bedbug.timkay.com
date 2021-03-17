@@ -26,14 +26,15 @@ export let p = 1e3;
 
 const precision = v => p = 1 / v;
 
-// round numbers (recursively)
+// round numbers (recursively), unpack everything else
 const fv = v => typeof v === 'string' ? v
+                : typeof v === 'boolean' || typeof v === 'function'? String(v)
                 : v === null || v === undefined ? String(v)
-                : typeof v === 'function'? String(v)
                 : typeof v === 'number' ? String(Math.round(v * p) / p)
-                : Array.isArray(v) ? '[' + v.map(fv).join(',') + ']'
-                : '{' + Object.entries(v).sort(([a], [b]) => a.localeCompare(b))
-                    .map(([k, v]) => `${fv(k)}: ${fv(v)}`).join(', ') + '}'
+                : Array.isArray(v) ? '[' + v.map(fv).join(', ') + ']'
+                : '{' + Object.getOwnPropertyNames(v)
+                    .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+                    .map(k => `${fv(k)}: ${fv(v[k])}`).join(', ') + '}'
                 ;
 // replace =x with x=fv(value)
 const fs = (e, s) => s.replace(/=\S+/ig, t => {

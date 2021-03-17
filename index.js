@@ -17,19 +17,20 @@ function go() {
     let o = {'tim': Math.PI, 'bob': 'mary', [Math.PI]: 'PI'};
     let s = 'Hello, world!!';
 
-    print(`    let c = 3.1415;
-    let abc = 8.1234;
-    let u;
-    let n = null;
-    let a = [1, 2, 'tim', 0, u, n];
-    let o = {'tim': Math.PI, 'bob': 'mary', [Math.PI]: 'PI'};
-    let s = 'Hello, world!!';
+    print(`let c = 3.1415;
+let abc = 8.1234;
+let u;
+let n = null;
+let a = [1, 2, 'tim', 0, u, n];
+let o = {'tim': Math.PI, 'bob': 'mary', [Math.PI]: 'PI'};
+let s = 'Hello, world!!';
 `);
     print();
     example('c=${c} b=${b} =s =abc =b', f`c=${c} b=${b} =s =abc =b`);
     example('=u =n =a', f`=u =n =a`);
     example('=o =f', f`=o =f`);
     example('pi found here... =Math.PI', f`pi found here... =Math.PI`);
+    example(`=o`, f`=o`);
 }
 
 const b = 99.123455;

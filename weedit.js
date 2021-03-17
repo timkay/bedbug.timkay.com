@@ -4,4 +4,6 @@ if (location === parent.location) {
     $('#popin').click(event => {
         location.href = '?run=edit';
     });
+} else {
+    $('link[rel="icon"]').appendTo($(window.parent.document).find('head'));
 }

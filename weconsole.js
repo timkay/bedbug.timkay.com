@@ -2,42 +2,81 @@
 (function (_log, _clr, _time, _tend) {
     let max = 50;
     let counter = 0;
+    let clean = text => text.replace(/</g, '&lt;');
     let console_log = (...args) => {
         // _log(...args);
         if (counter++ > max) return;
         if (counter > max) args = ['... truncated ...'];
-        let console = $('#_webedit_console_content');
-        if (!console.length) {
-            $('body').append('<div id="_webedit_console" style="position: fixed; z-index: 100; left: 1px; right: 1px; bottom: 1px; max-height: 2in; opacity: 0.33; border: thin dashed gray; overflow-x: auto; padding: 4px;">'
-                            + '<button id="_webedit_console_clear" style="position: fixed; bottom: 20px; right: 20px;">clear</button>'
+        let _console = $('#_webedit_console_content');
+        if (!_console.length) {
+            $('body').append('<div id="_webedit_console" style="position: fixed; z-index: 1; left: 1px; right: 1px; bottom: 1px; max-height: 2in; opacity: 0.5; border: thin dashed gray; overflow-x: auto; padding: 4px;">'
+                            + '<button id="_webedit_console_clear" style="position: absolute; top: 0px; right: 3px;">clear</button>'
                             + '<pre id="_webedit_console_content" style="margin: 0;"><b>CONSOLE OUTPUT (except some error messages--see browser console.)</b>\n</pre>'
                             + '</div>');
-            console = $('#_webedit_console_content');
+            _console = $('#_webedit_console_content');
             $('#_webedit_console_clear').click(event => console_clear());
-            $(window).on('error', event => {
-                event.preventDefault();
-                console_log(event.originalEvent.error.stack.replace(/https?:.*\//, ''));
-            });
         }
-        console.append(args.map(pretty).join(' ').replace(/</g, '&lt;').replace(/\s*$/, '\n')).parent().scrollTop(console.height());
-        
-        function pretty(item) {
-            if (item instanceof Error) return item.toString();
-            if (['object'].includes(typeof item)) {
+        let output = args[0];
+        if (args.length > 1 || args[0][0] !== '<') {
+            output = clean(args.map(pretty).join(' '));
+            try {
+                throw new Error();
+            } catch (e) {
+                let line = '???';
                 try {
-                    return item.constructor.name + ' ' + JSON.stringify(item);
-                } catch (error) {
-                    return item.type + ' event' || 'Cannot display: ' + error;
-                }
+                    line = e.stack.split(/\n/)[2].match(/.*\/(.*):\d+\)?/)[1];
+                } catch (e) {}
+                output = `<span style='float: right; color: red'>${clean(line)}</span>${output}`;
             }
-            return item;
+
+        }
+        _console.append(output.replace(/\s*$/, '\n')).parent().scrollTop(_console.height());
+        
+        // function pretty(item) {
+        //     if (item instanceof Error) return item.toString();
+        //     if (['object'].includes(typeof item)) {
+        //         try {
+        //             return item.constructor.name + ' ' + JSON.stringify(item);
+        //         } catch (error) {
+        //             return item.type + ' event' || 'Cannot display: ' + error;
+        //         }
+        //     }
+        //     return item;
+        // }
+        function pretty(v) {
+            const p = 1e5;
+            return typeof v === 'string' ? v
+                : typeof v === 'boolean' || typeof v === 'function'? String(v)
+                : v === null || v === undefined ? String(v)
+                : typeof v === 'number' ? String(Math.round(v * p) / p)
+                : Array.isArray(v) ? '[' + v.map(pretty).join(', ') + ']'
+                : '{' + Object.getOwnPropertyNames(v)
+                    .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+                    .map(k => `${pretty(k)}: ${pretty(v[k])}`).join(', ') + '}'
+                ;
         }
     };
+    addEventListener('error', event => {
+        event.preventDefault();
+        const {message, filename: source, lineno, colno, error} = event;
+        console.log(`<span style='float: right; color: red'>${[clean(source.replace(/.*\//, '')), lineno].join(':')}</span>${error}. line ${lineno}, col ${colno}`);
+        fetch(source)
+        .then(res => res.text())
+        .then(text => text.split('\n')[lineno - 1])
+        .then(line => {
+            const lhs = line.substr(0, colno - 1);
+            const mhs = (line.substr(colno - 1).match(/\w+|./) || [' '])[0];
+            const rhs = line.substr(colno - 1 + mhs.length);
+            return `<span>${lineno}\t${clean(lhs)}<span style="border: 2px solid red">${clean(mhs)}</span>${clean(rhs)}</span>`;
+        })
+        .then(console.log);
+    });
     let console_clear = () => {
         _clr();
         counter = 0;
         $('#_webedit_console_content').html('');
     };
+    console.orig = {log: console.log, clear: console.clear};
     console.log = console_log;
     console.clear = console_clear;
     console.done = () => {
