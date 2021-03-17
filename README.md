@@ -12,7 +12,7 @@ Instead of this output:
     console.log(`The answer is a=${9.12345678} 1/3=${1/3} Math.PI=${Math.PI}`);
     > The answer is a=9.12345678 1/3=0.3333333333333333 Math.PI=3.141592653589793 
 
-add the letter "f", and you get this output:
+add the letter `f`, and you get this output:
 
     console.log(f`The answer is a=${9.12345678} 1/3=${1/3} Math.PI=${Math.PI}`);
     > The answer is a=9.123 1/3=0.333 Math.PI=3.142
@@ -22,7 +22,7 @@ You can also abbreviate. Instead of `x=${x}`, simply use `=x`:
     console.log(f`The answer is a=${9.12345678} =1/3 =fred =Math.PI`);
     > The answer is a=9.123 1/3=0.333 fred=4.197 Math.PI=3.142
 
-Bedbug provides "tag" functions that modify how template literals work. Import the "f" tag like this:
+Bedbug provides "tag" functions that modify how template literals work. Import the `f` tag like this:
 
     import {f} from '//bedbug.timkay.com/bedbug.js';
     console.log(f`The answer is a=${9.12345678} =Math.PI`);
