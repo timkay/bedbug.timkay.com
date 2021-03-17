@@ -1,9 +1,11 @@
 # bedbug.timkay.com
 
-Better Debugging == bedbug
-by Tim Kay
-timkay@not.com
-Working with numbers, debug output often looks cluttered due to too many decimal places. Bedbug enhances JavaScript template literals ("backtick" strings) to improve readability.
+    Better Debugging == bedbug
+    by Tim Kay
+    timkay@not.com
+
+Working with numbers, debug output often looks cluttered due to too many decimal places.
+Bedbug enhances JavaScript template literals ("backtick" strings) to improve readability.
 
 Instead of this output:
 
