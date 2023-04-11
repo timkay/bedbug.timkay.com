@@ -27,7 +27,7 @@ export let p = 1e3;
 const precision = v => p = 1 / v;
 
 // round numbers (recursively), unpack everything else
-const fv = v => typeof v === 'string' ? v
+export const fv = v => typeof v === 'string' ? v
                 : typeof v === 'boolean' || typeof v === 'function'? String(v)
                 : v === null || v === undefined ? String(v)
                 : typeof v === 'number' ? String(Math.round(v * p) / p)
@@ -49,4 +49,4 @@ export const g  = (e) => (s, ...v) => fe(e, s, v);
 // only global variables with =x
 export const f = (s, ...v) => g(x=>eval(x))(s, ...v);
 
-export default {precision, g, f};
+export default {precision, g, f, fv};
